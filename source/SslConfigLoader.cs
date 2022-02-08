@@ -32,7 +32,11 @@ namespace JamesFrowen.SimpleWeb
 
         internal static Cert LoadCertJson(string certJsonPath)
         {
+#if UNITY_WEBGL
+            string json = Resources.Load<TextAsset>(certJsonPath).text;
+#else
             string json = File.ReadAllText(certJsonPath);
+#endif
             Cert cert = JsonUtility.FromJson<Cert>(json);
 
             if (string.IsNullOrEmpty(cert.path))
